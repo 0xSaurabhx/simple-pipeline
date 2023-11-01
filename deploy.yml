@@ -1,0 +1,22 @@
+---
+- name: Deploy Website
+  hosts: your_server
+  become: yes
+
+  tasks:
+    - name: Updating the git repo
+      git:
+        repo: /var/www/your_domain_name
+        version: HEAD
+        update: yes
+
+    - name: Copying website files to the web server directory
+      synchronize:
+        src: /var/www/your_domain_name
+        dest: /var/www/your_domain_name
+        delete: yes
+
+    - name: Reloading Nginx
+      service:
+        name: nginx
+        state: reloaded
